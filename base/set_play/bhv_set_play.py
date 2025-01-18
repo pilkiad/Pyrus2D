@@ -38,6 +38,7 @@ class Bhv_SetPlay:
 
         st = StrategyFormation.i()
         target = st.get_pos(wm.self().unum())
+        
         if wm.game_mode().side() is wm.our_side():
             nearest_tm_dist = 1000
             nearest_tm = 0
@@ -50,8 +51,10 @@ class Bhv_SetPlay:
                     if dist < nearest_tm_dist:
                         nearest_tm_dist = dist
                         nearest_tm = i
+
             if nearest_tm is wm.self().unum():
                 target = wm.ball().pos()
+
         if GoToPoint(target, 0.5, 100).execute(agent):
             agent.set_neck_action(NeckTurnToBallOrScan())
             return True

@@ -27,9 +27,12 @@ class KickAction:
         self.min_opp_dist = 0.0
 
     def calculate_min_opp_dist(self, wm: 'WorldModel' = None):
-        if wm is None or wm.opponents() is None or len(wm.opponents()) == 0:
+        try:
+            if wm is None or wm.opponents() is None or len(wm.opponents()) == 0:
+                return 0.0
+            return min([opp.pos().dist(self.target_ball_pos) for opp in wm.opponents() if opp is not None and opp.unum() > 0])
+        except:
             return 0.0
-        return min([opp.pos().dist(self.target_ball_pos) for opp in wm.opponents() if opp is not None and opp.unum() > 0])
 
     def evaluate(self, wm: 'WorldModel' = None):
         self.min_opp_dist = self.calculate_min_opp_dist(wm)
