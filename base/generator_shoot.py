@@ -59,12 +59,12 @@ class BhvShhotGen(BhvKickGen):
     def create_shoot(self, wm: 'WorldModel', target_point: Vector2D):
         ball_move_angle = (target_point - wm.ball().pos()).th()
         goalie = wm.get_opponent_goalie()
-        if goalie is None or (goalie.unum() > 0 and 5 < goalie.pos_count() < 30):
+        #if goalie is None or (goalie.unum() > 0 and 5 < goalie.pos_count() < 30):
             # TODO  and wm.dirCount( ball_move_angle ) > 3
-            log.sw_log().shoot().add_text( "#shoot {} didnt see goalie".format(self.total_count))
-            return
+        #    log.sw_log().shoot().add_text( "#shoot {} didnt see goalie".format(self.total_count))
+        #    return
 
-        if wm.self().pos().abs_x() < 30 and wm.self().pos().abs_x() > 10:
+        if wm.self().pos().abs_x() < 30 and wm.self().pos().x() > 0:
             return
 
         sp = SP.i()

@@ -85,7 +85,7 @@ class BhvPassGen(BhvKickGen):
         sp = SP.i()
         min_receive_step = 1
         max_direct_pass_dist = smath.inertia_final_distance(sp.ball_speed_max(), sp.ball_decay())
-        max_receive_ball_speed = sp.ball_speed_max() * pow(sp.ball_decay(), min_receive_step)
+        max_receive_ball_speed = 3 * sp.ball_speed_max() * pow(sp.ball_decay(), min_receive_step)
         min_direct_pass_dist = 0
         #if receiver.pos().x() > sp.pitch_half_length() - 1.5 \
         #        or receiver.pos().x() < -sp.pitch_half_length() + 5.0 \
@@ -493,6 +493,12 @@ class BhvPassGen(BhvKickGen):
 
             if candidate.target_ball_pos.x() <= -50:
                 candidate.eval -= 1000
+
+            if wm.game_mode() != GameModeType.PlayOn:
+                candidate.eval += 100
+
+            if wm.self().pos().abs_x() > 40:
+                candidate.eval += 30
             """
 
             if wm.game_mode() != GameModeType.PlayOn:
