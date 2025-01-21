@@ -31,7 +31,6 @@ class BhvKick:
                 'shoot' + 'to ' + shoot_candidate.target_point.__str__() + ' ' + str(shoot_candidate.first_ball_speed))
             SmartKick(shoot_candidate.target_point, shoot_candidate.first_ball_speed,
                       shoot_candidate.first_ball_speed - 1, 3).execute(agent)
-            #agent.set_neck_action(NeckScanPlayers())
             return True
         else:
             action_candidates: List[KickAction] = []
@@ -44,15 +43,12 @@ class BhvKick:
 
             if len(action_candidates) == 0:
                 return True
-                #return self.no_candidate_action(agent)
 
             best_action: KickAction = max(action_candidates)
 
             target = best_action.target_ball_pos
             log.debug_client().set_target(target)
             log.debug_client().add_message(best_action.type.value + 'to ' + best_action.target_ball_pos.__str__() + ' ' + str(best_action.start_ball_speed))
-            print("SMORT KICKICK ")
-            print(best_action.type.value + 'to ' + best_action.target_ball_pos.__str__() + ' ' + str(best_action.start_ball_speed))
             SmartKick(target, best_action.start_ball_speed, best_action.start_ball_speed - 1, 3).execute(agent)
 
             if best_action.type is KickActionType.Pass:
@@ -61,7 +57,6 @@ class BhvKick:
                                                     agent.effector().queued_next_ball_pos(),
                                                     agent.effector().queued_next_ball_vel()))
 
-            #agent.set_neck_action(NeckScanPlayers())
             return True
 
     def no_candidate_action(self, agent: 'PlayerAgent'):
@@ -76,5 +71,4 @@ class BhvKick:
                 log.debug_client().add_message(best_action.type.value + 'to ' + best_action.target_ball_pos.__str__() + ' ' + str(best_action.start_ball_speed))
                 SmartKick(target, best_action.start_ball_speed, best_action.start_ball_speed - 2.0, 2).execute(agent)
 
-        #agent.set_neck_action(NeckScanPlayers())
         return HoldBall().execute(agent)

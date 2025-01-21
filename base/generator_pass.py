@@ -135,7 +135,6 @@ class BhvPassGen(BhvKickGen):
         start_step = max(max(min_receive_step, min_ball_step), 0)
         max_step = start_step + 30
         log.sw_log().pass_().add_text( '#DPass to {} {}'.format(receiver.unum(), receiver.pos()))
-        print('#DPass to {} {}'.format(receiver.unum(), receiver.pos()))
         self.create_pass(wm, receiver, receive_point,
                          start_step, max_step, min_ball_speed,
                          max_ball_speed, min_receive_ball_speed,
