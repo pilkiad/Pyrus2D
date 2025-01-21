@@ -481,7 +481,7 @@ class BhvPassGen(BhvKickGen):
             candidate.target_unum = receiver.unum()
             candidate.start_ball_speed = max_first_ball_speed
             candidate.evaluate(wm)
-            #candidate.eval += 5
+            candidate.eval += 5
             opp_min = wm.intercept_table().opponent_reach_cycle()
             if opp_min <= 5:
                 candidate.eval += 30
@@ -498,6 +498,11 @@ class BhvPassGen(BhvKickGen):
                 candidate.eval += 100
 
             if wm.self().pos().abs_x() > 40:
+                candidate.eval += 30
+
+            if candidate.target_ball_pos.abs_x() <= 30 and candidate.target_ball_pos.x() > candidate.start_ball_pos.x():
+                candidate.eval += 10
+            if candidate.target_ball_pos.x() >= 40 and candidate.target_ball_pos.x() < candidate.start_ball_pos.x():
                 candidate.eval += 30
             """
 
