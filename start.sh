@@ -34,19 +34,17 @@ pids=()
 $run_command $options --goalie &
 pids+=($!)
 
-sleep 1
+sleep 0.1
 
 i=2
 while [ $i -le 11 ] ; do
   $run_command $options --player &
   pids+=($!)
 
-  sleep 0.2
-
   i=`expr $i + 1`
 done
 
-sleep 2
+sleep 0.1
 $run_command $options --coach &
 pids+=($!)
 

@@ -21,7 +21,7 @@ class InterceptTable:
     
     def __init__(self):
         self._last_update_time: GameTime = GameTime(-10, -100)
-        self._max_cycle: int = 30
+        self._max_cycle: int = 100
 
         self._ball_cache: list[Vector2D] = []
         self._self_cache: list[Vector2D] = []

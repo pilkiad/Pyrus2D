@@ -42,6 +42,8 @@ class BhvShhotGen(BhvKickGen):
             target_point = Vector2D(goal_l.x(), goal_l.y() + dist_step * i)
             log.sw_log().shoot().add_text( "#shoot {} to {}".format(self.total_count, target_point))
             self.create_shoot(wm, target_point)
+            self.create_shoot(wm, Vector2D(target_point.x(), target_point.y() + 2))
+            self.create_shoot(wm, Vector2D(target_point.x(), target_point.y() - 2))
         if len(self.candidates) == 0:
             return None
 
@@ -60,6 +62,9 @@ class BhvShhotGen(BhvKickGen):
         if goalie is None or (goalie.unum() > 0 and 5 < goalie.pos_count() < 30):
             # TODO  and wm.dirCount( ball_move_angle ) > 3
             log.sw_log().shoot().add_text( "#shoot {} didnt see goalie".format(self.total_count))
+            return
+
+        if wm.self().pos().abs_x() < 30 and wm.self().pos().abs_x() > 10:
             return
 
         sp = SP.i()
@@ -99,9 +104,9 @@ class BhvShhotGen(BhvKickGen):
         ball_reach_step = int(
             math.ceil(smath.calc_length_geom_series(first_ball_speed, ball_move_dist, sp.ball_decay())))
 
-        if ball_reach_step == -1:
-            log.sw_log().shoot().add_text( 'Cant arrive to target')
-            return False
+        #if ball_reach_step == -1:
+        #    log.sw_log().shoot().add_text( 'Cant arrive to target')
+        #    return False
         log.sw_log().shoot().add_text( '{} {} {} {} {}'.format(first_ball_speed, ball_move_dist, sp.ball_decay(), smath.calc_length_geom_series(first_ball_speed, ball_move_dist, sp.ball_decay()), math.ceil(smath.calc_length_geom_series(first_ball_speed, ball_move_dist, sp.ball_decay()))))
         course = ShootAction(self.total_count, target_point, first_ball_speed, ball_move_angle, ball_move_dist,
                              ball_reach_step)
@@ -117,6 +122,8 @@ class BhvShhotGen(BhvKickGen):
 
         for o in range(1, 12):
             opp = wm.their_player(o)
+            if opp is None:
+                continue
             if opp.unum() < 1:
                 log.sw_log().shoot().add_text( '## opp {} can not, unum')
                 continue
@@ -135,8 +142,8 @@ class BhvShhotGen(BhvKickGen):
                 continue
 
             if opp.goalie():
-                if self.maybe_goalie_catch(opp, course, wm):
-                    return False
+                #if self.maybe_goalie_catch(opp, course, wm):
+                #    return False
                 log.sw_log().shoot().add_text( '## opp {} can not, goalie catch')
                 continue
 
@@ -287,7 +294,7 @@ class BhvShhotGen(BhvKickGen):
                 score += 100.0
 
             goalie_rate = 1.0
-            if goalie.unum() > 0:
+            if goalie is not None and goalie.unum() > 0:
                 variance2 = 1.0 if it.goalie_never_reach else pow(10.0, 2)
                 angle_diff = (it.ball_move_angle - goalie_angle).abs()
                 goalie_rate = 1.0 - math.exp(-pow(angle_diff, 2) / (2.0 * variance2) )

@@ -45,11 +45,13 @@ class SmartKick(BodyAction):
             if SmartKick.debug_print_DEBUG:
                 log.os_log().info("----- NotKickable -----")
                 log.sw_log().kick().add_text("not kickable")
+            print("quitting the kick non kickable")
             return False
         if not wm.ball().vel_valid():
             if SmartKick.debug_print_DEBUG:
                 log.os_log().info("-- NonValidBall -> StopBall --")
                 log.sw_log().kick().add_text("unknown ball vel")
+            print("quitting the kick vel")
             return StopBall().execute(agent)
         first_speed = min(self._first_speed, ServerParam.i().ball_speed_max())
         first_speed_thr = max(0.0, self._first_speed_thr)
@@ -66,7 +68,7 @@ class SmartKick(BodyAction):
 
         if ans[0]:
             self._sequence = ans[1]
-            if self._sequence.speed_ >= first_speed_thr:  # double check
+            if True:  # double check
                 vel = self._sequence.pos_list_[0] - wm.ball().pos()
                 kick_accel = vel - wm.ball().vel()
                 if SmartKick.debug_print_DEBUG:
@@ -79,10 +81,13 @@ class SmartKick(BodyAction):
                     log.os_log().debug(f"----------------#### Player Number {wm.self().unum()} 'DO_KICK'ed in SmartKick at Time: {wm.time().cycle()} ####----------------")
                     log.sw_log().kick().add_text(f"----------------#### Player Number {wm.self().unum()} 'DO_KICK'ed in SmartKick at Time: {wm.time().cycle()} ####----------------")
                 return True
+            else:
+                print("HERE LIES THE ERROR")
 
         # failed to search the kick sequence
         log.sw_log().kick().add_text("----->>>>>Hold Ball")
-        HoldBall(False, self._target_point, self._target_point).execute(agent)
+        print("failed the kick end")
+        HoldBall(True, self._target_point, self._target_point).execute(agent)
         return False
 
     def sequence(self):

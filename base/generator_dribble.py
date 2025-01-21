@@ -19,6 +19,10 @@ max_dribble_time = 0
 class BhvDribbleGen(BhvKickGen):
     def generator(self, wm: 'WorldModel'):
         global max_dribble_time
+
+        if wm.self().pos().x() > 40:
+            return None
+
         start_time = time.time()
         self.generate_simple_dribble(wm)
 
@@ -98,7 +102,7 @@ class BhvDribbleGen(BhvKickGen):
         # trap_rel = Vector2D.polar2vector(ptype.playerSize() + ptype.kickableMargin() * 0.2 + SP.ball_size(), dash_angle)
         trap_rel = Vector2D.polar2vector(ptype.player_size() + ptype.kickable_margin() * 0.2 + 0, dash_angle)
 
-        max_x = sp.pitch_half_length() - 1.0
+        max_x = sp.pitch_half_length() - 5.0
         max_y = sp.pitch_half_width() - 1.0
 
         for n_dash in range(max_dash, min_dash - 1, -1):
@@ -227,7 +231,7 @@ class BhvDribbleGen(BhvKickGen):
 
             target_dist = opp_pos.dist(ball_trap_pos)
 
-            if target_dist - control_area < 0.001:
+            if target_dist - control_area < 0.01:
                 if debug_dribble:
                     log.sw_log().dribble().add_text( "###OPP {} Catch, ball will be in his body".format(o))
                 return False

@@ -713,7 +713,7 @@ class _ServerParam:  # TODO specific TYPES and change them
     
     def set_additional_param(self):
         self._kickable_area = self._kickable_margin + self._ball_size + self._player_size
-        self._catchable_area = ((self.catch_area_w()*0.5)**2 + (self.catch_area_l()**2))**0.5
+        self._catchable_area = ((self.catch_area_w()*0.5)**1.999 + (self.catch_area_l()**1.999))**0.5
         self._control_radius_width = self._control_radius - self._player_size
         
         accel_max = self.max_dash_power() * self.default_dash_power_rate() * self.default_effort_max()
