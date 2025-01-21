@@ -31,7 +31,7 @@ class GoToPoint:
 
         target_dist = target_rel.r()
         if target_dist < self._dist_thr:
-            agent.do_turn(0.0)
+            #agent.do_turn(0.0)
             return False
 
         self.check_collision(agent)
@@ -42,7 +42,7 @@ class GoToPoint:
         if self.do_dash(agent):
             return True
 
-        agent.do_turn(0)
+        #agent.do_turn(0)
         return False
 
     def do_turn(self, agent):
@@ -94,8 +94,9 @@ class GoToPoint:
         required_accel = first_speed - rel_vel.x()
         if math.fabs(required_accel) < 0.05:
             return False
-        dash_power = required_accel / wm.self().dash_rate()
-        dash_power = min(dash_power, self._max_dash_power)
+        #dash_power = required_accel / wm.self().dash_rate()
+        #dash_power = min(dash_power, self._max_dash_power)
+        dash_power = self._max_dash_power
         if self._back_mode:
             dash_power = -dash_power
         dash_power = SP.i().normalize_dash_power(dash_power)

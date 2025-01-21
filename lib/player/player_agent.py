@@ -441,9 +441,9 @@ class PlayerAgent(SoccerAgent):
             log.os_log().error(f"(do catch) player({self._real_world.self_unum()} play mode is not play_on!")
             return False
 
-        if not wm.ball().rpos_valid():
-            log.os_log().error(f"(do catch) player({self._real_world.self_unum()} ball rpos is not valid!")
-            return False
+        #if not wm.ball().rpos_valid():
+        #    log.os_log().error(f"(do catch) player({self._real_world.self_unum()} ball rpos is not valid!")
+        #    return False
 
         self._last_body_command.append(self.effector().set_catch())
 

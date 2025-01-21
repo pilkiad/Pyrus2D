@@ -389,7 +389,7 @@ class SelfObject(PlayerObject):
             log.os_log().debug(f"(self obj update ball_info) kickable_area={ptype.kickable_area()}")
 
         if ball.dist_from_self() <= ptype.kickable_area():
-            buff = 0.055
+            buff = 0.1
             if ball.seen_pos_count() >= 1:
                 buff = 0.155
             if ball.seen_pos_count() >= 2:

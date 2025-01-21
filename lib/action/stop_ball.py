@@ -8,6 +8,8 @@ from pyrusgeom.soccer_math import *
 from pyrusgeom.angle_deg import AngleDeg
 from lib.rcsc.server_param import ServerParam
 
+from lib.action.neck_turn_to_ball_or_scan import NeckTurnToBallOrScan, NeckTurnToBall
+
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from lib.player.world_model import WorldModel
@@ -38,11 +40,14 @@ class StopBall(BodyAction):
         wm: 'WorldModel' = agent.world()
         if not wm.self().is_kickable():
             return False
+
+        agent.set_neck_action(NeckTurnToBall())
+
         if not wm.ball().vel_valid():  # Always true until NFS nice :)
             required_accel = wm.self().vel() - (wm.self().pos() - wm.ball().pos())
             kick_power = required_accel.r() / wm.self().kick_rate()
             kick_power *= 0.5
-            agent.do_kick(min(kick_power, ServerParam.i().max_power()),
+            agent.do_kick(max(kick_power, ServerParam.i().max_power()),
                           required_accel.th() - wm.self().body())
             return True
 
@@ -51,12 +56,12 @@ class StopBall(BodyAction):
 
         self.calcAccel(agent)
 
-        if self._accel_radius < 0.02:
-            agent.do_turn(0.0)
-            return False
-        kick_power = 0.0
-        # kick_power = self._accel_radius / wm.self().kickRate()
-        # kick_power = min(kick_power, i.maxPower())
+        #if self._accel_radius < 0.02:
+        #    agent.do_turn(0.0)
+        #    return False
+        kick_power = ServerParam.i().max_power()
+        #kick_power = self._accel_radius / wm.self().kickRate()
+        #kick_power = max(kick_power, i.maxPower())
 
         return agent.do_kick(kick_power,
                              self._accel_angle - wm.self().body())

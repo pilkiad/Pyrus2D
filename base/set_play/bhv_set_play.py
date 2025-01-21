@@ -1,7 +1,7 @@
 from base.set_play.bhv_set_play_before_kick_off import Bhv_BeforeKickOff
 from base.strategy_formation import *
 from lib.action.neck_scan_players import NeckScanPlayers
-from lib.action.neck_turn_to_ball_or_scan import NeckTurnToBallOrScan
+from lib.action.neck_turn_to_ball_or_scan import NeckTurnToBallOrScan, NeckTurnToBall
 from lib.action.scan_field import ScanField
 from lib.debug.debug import log
 from lib.debug.level import Level

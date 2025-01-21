@@ -52,12 +52,21 @@ class BhvMove:
                 agent.set_neck_action(NeckTurnToBall())
                 return True
 
-        if opp_min < min(tm_min, self_min):
+        if opp_min < min(tm_min, self_min) and agent.world().self().unum() != 1:
             if Bhv_Block().execute(agent):
                 agent.set_neck_action(NeckTurnToBall())
                 return True
         st = StrategyFormation().i()
         target = st.get_pos(agent.world().self().unum())
+
+        if agent.world().self().unum() == 1:
+            target = Vector2D(target.x(), wm.ball().pos().y() / 3)
+        
+        if target.x() > wm.ball().pos().x():
+            target = Vector2D(wm.ball().pos().x() + 7, target.y())
+
+        #if wm.ball().pos().x() > 15:
+        #   target = Vector2D(target.x() + 20, target.y())
 
         log.debug_client().set_target(target)
         log.debug_client().add_message('bhv_move')
@@ -69,7 +78,7 @@ class BhvMove:
             dist_thr = 1.0
 
         if GoToPoint(target, dist_thr, dash_power).execute(agent):
-            agent.set_neck_action(NeckTurnToBallOrScan())
+            agent.set_neck_action(NeckTurnToBall())
             return True
         return False
             

@@ -33,8 +33,8 @@ def decision(agent: 'PlayerAgent'):
     SP = ServerParam.i()
     wm = agent.world()
 
-    our_penalty = Rect2D(Vector2D(-SP.pitch_half_length(), -SP.penalty_area_half_width() + 1),
-                         Size2D(SP.penalty_area_length() - 1, SP.penalty_area_width() - 2))
+    our_penalty = Rect2D(Vector2D(-SP.pitch_half_length(), -SP.penalty_area_half_width() - 5),
+                         Size2D(SP.penalty_area_length() - 1, SP.penalty_area_width() - 5))
 
     log.os_log().debug(f'########## gdc={wm.time().cycle()}')
     log.os_log().debug(f'########## gd gmt={wm.game_mode().type()}')
@@ -44,7 +44,7 @@ def decision(agent: 'PlayerAgent'):
         return False
 
     if (wm.time().cycle() > wm.self().catch_time().cycle() + SP.catch_ban_cycle()
-        and wm.ball().dist_from_self() < SP.catchable_area() - 0.05
+        and wm.ball().dist_from_self() < SP.catchable_area() - 0.1
         and our_penalty.contains(wm.ball().pos())):
 
         agent.do_catch()
